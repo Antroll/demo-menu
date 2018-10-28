@@ -1,0 +1,32 @@
+html,
+body {
+	height: 100%;
+}
+
+body{
+	font-size: 16px;
+	-webkit-font-smoothing:antialiased;
+	&:after {
+		display: block;
+		padding: 10px;
+		position: fixed;
+		bottom: 0;
+		right: 0;
+		background: #000;
+		color: #fff;
+		visibility: hidden;
+		content: '320';
+		@media screen and (min-width: $screen-sm){
+			content: '#{$screen-sm}';
+		}
+		@media screen and (min-width: $screen-md){
+			content: '#{$screen-md}';
+		}
+		@media screen and (min-width: $screen-lg){
+			content: '#{$screen-lg}';
+		}
+		@media screen and (min-width: $screen-xl){
+			content: '#{$screen-xl}';
+		}
+	}
+}

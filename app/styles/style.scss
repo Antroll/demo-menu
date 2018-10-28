@@ -1,0 +1,34 @@
+@import "mixins/all-mixins";
+@import "includes/vars";
+
+@import "includes/bootstrap/functions";
+@import "includes/bootstrap/variables";
+@import "includes/bootstrap/mixins";
+
+/*!
+ * CUSTOM STYLES
+ * 2018 Panov A.P.
+ * magwai.ru
+ */
+
+@import "includes/fonts";
+@import "includes/setup";
+@import "includes/typography";
+// @import "includes/sprite";
+@import "includes/shadow-classes";
+@import "includes/global-classes";
+@import "includes/plugins";
+
+@import "components/buttons";
+@import "components/forms";
+@import "components/checkbox";
+// @import "components/breadcrumbs";
+// @import "components/pagination";
+
+@import "layout";
+@import "components/header";
+@import "components/footer";
+
+@import "pages/index";
+
+@import "includes/animations";

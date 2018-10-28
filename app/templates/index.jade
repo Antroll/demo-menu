@@ -1,0 +1,25 @@
+extends _layout
+block content
+	.wrap
+		br
+		h1.text-center Hello world!
+		br
+		.row.align-items-center.justify-content-center
+			.col-md-auto.order-md-1
+				.d-inline-block
+					label(for="imhappy" data-tooltip="And should") Are you happy?
+					p
+						+radiobox({ className: '' })#imhappy(name="dsd")
+							span(data-tooltip="Yes") ヽ(♡‿♡)ノ
+					p
+						+radiobox({ className: '' })(name="dsd")
+							span(data-tooltip="No") (╯︵╰,)
+					p
+						+checkbox({ className: '' })
+							span(data-tooltip="emm..") (￣▽￣*)ゞ
+			.col-md-auto
+				.img-block.d-inline-block(data-tooltip="Hi, I'm Bob!" style="width: 200px")
+					.responsive-img
+						img(src="img/media/bob_minion.png", alt="" data-object-fit="contain")
+
+

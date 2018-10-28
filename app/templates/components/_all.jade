@@ -1,0 +1,18 @@
+include _breadcrumbs
+include _checkbox
+include _header
+include _footer
+include _pagination
+
+mixin random(num1, num2)
+	- var num = Math.floor(Math.random() * (num1 - num2) + num2)
+	span=num
+
+mixin br(count)
+	div(style="height:"+count+"px;")
+		if block
+			block
+
+mixin svg(id)
+	svg(role="img" width="1em" height="1em")&attributes(attributes)
+		use(xlink:href='#si-'+id)

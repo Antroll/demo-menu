@@ -1,0 +1,5 @@
+/* index */
+[data-tooltip] {
+	@include hui_tooltip(attr(data-tooltip), 'top', grey);
+}
+/* .index */

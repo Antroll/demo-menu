@@ -1,0 +1,24 @@
+// Футер книзу
+.wrap-site {
+	min-height: 100%;
+	min-width: 320px;
+	position: relative;
+	width: 100%;
+	overflow: hidden;
+
+	display: flex;
+	flex-flow: column;
+}
+.main{
+	position: relative;
+	flex: 1 0 auto;
+}
+// .Футер книзу
+.wrap{
+	width: 100%;
+	max-width: $screen-xl;
+	padding-left: $gw / 2;
+	padding-right: $gw / 2;
+	margin-left: auto;
+	margin-right: auto;
+}
