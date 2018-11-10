@@ -1,0 +1,16 @@
+{
+	"projectTitle": "Demo menu",
+	"pages": [
+		{
+			"title": "Главная",
+			"href": "index.html",
+			"thumb": "thumbs/index.jpg"
+		},{
+			"title": "test",
+			"href": "test.html",
+			"thumb": "thumbs/test.jpg"
+		}
+	],
+	"tags": [],
+	"author": "Панов"
+}

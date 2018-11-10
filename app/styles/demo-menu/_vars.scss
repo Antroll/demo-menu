@@ -28,5 +28,5 @@ $zindex-tooltip:            1070;
 
 // ---------------------------- colors
 $color-main-1: #38414e;
-$color-main-2: #262d37;
+$color-main-2: darken($color-main-1, 8%);
 $color-blue: #12aaeb;

@@ -1,0 +1,21 @@
+div(block="demo-menu")
+	div(elem="overlay")
+	div(elem="nav")
+
+		ul(elem="list" mod="custom-scroll")
+
+			li(elem="item")
+				a(elem="link" href="index.html") Главная
+					i(elem="thumb-icon" data-thumb="demo/thumbs/index.jpg") ?
+
+			//- each item in Array(30)
+			li(elem="item")
+				a(elem="link" href="test.html") Test
+					i(elem="thumb-icon" data-thumb="demo/thumbs/test.jpg") ?
+
+		div(elem="thumb-wrap")
+			img(src=img, alt="")
+
+		div(elem="trigger")
+			a(elem="trigger-btn" href="#")
+				i(elem="trigger-icon")
