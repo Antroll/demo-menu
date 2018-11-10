@@ -18,26 +18,34 @@ html.no-js
 		//- styles
 		link(rel="stylesheet", href="styles/vendors.css")
 		link(rel="stylesheet", href="styles/style.css?"+time)
+		link(rel="stylesheet", href="styles/demo-menu.css?"+time)
 		block style
 		block script
 	body
-		// [if lte IE 9]>
-			<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="//browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
-			<![endif]
-		//- .visuallyhidden
-			include ../../dist/images/svg/sprite.symbol.svg
-		.wrap-site(class=wrapClass)
-			block header
-				+header
-			main.main
-				block content
-			block footer
-				+footer
-		script(src="scripts/icons.js" data-svg-path="img/theme/sprite.symbol.svg")
-		script(src="//code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous")
-		script.
-			window.jQuery || document.write('<script src="vendors/jquery-2.2.4.min.js"><\/script>')
-		script(src="vendors/delete-me.js")
-		script(src="scripts/vendors.js")
-		script(src="scripts/main.js?"+time)
-		block scripts
+		div(block="demo-menu")
+			div(elem="nav")
+			div(elem="trigger")
+				a(elem="trigger-btn" href="#")
+					i(elem="trigger-icon")
+			div(elem="all-wrap")
+				// [if lte IE 9]>
+					<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="//browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+					<![endif]
+				//- .visuallyhidden
+					include ../../dist/images/svg/sprite.symbol.svg
+				.wrap-site(class=wrapClass)
+					block header
+						+header
+					main.main
+						block content
+					block footer
+						+footer
+				script(src="scripts/icons.js" data-svg-path="img/theme/sprite.symbol.svg")
+				script(src="//code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous")
+				script.
+					window.jQuery || document.write('<script src="vendors/jquery-2.2.4.min.js"><\/script>')
+				//- script(src="vendors/delete-me.js")
+				script(src="scripts/vendors.js")
+				script(src="scripts/main.js?"+time)
+				script(src="scripts/demo-menu.js?"+time)
+				block scripts
