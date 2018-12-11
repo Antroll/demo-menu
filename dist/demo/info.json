@@ -4,11 +4,11 @@
 		{
 			"title": "Главная",
 			"href": "index.html",
-			"thumb": "thumbs/index.jpg"
+			"thumb": "demo/thumbs/index.jpg"
 		},{
 			"title": "test",
 			"href": "test.html",
-			"thumb": "thumbs/test.jpg"
+			"thumb": "demo/thumbs/test.jpg"
 		}
 	],
 	"tags": [],

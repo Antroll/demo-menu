@@ -18,7 +18,7 @@ html.no-js
 		//- styles
 		link(rel="stylesheet", href="styles/vendors.css")
 		link(rel="stylesheet", href="styles/style.css?"+time)
-		link(rel="stylesheet", href="styles/demo-menu.css?"+time)
+		//- link(rel="stylesheet", href="styles/demo-menu.css?"+time)
 		block style
 		block script
 	body
@@ -41,8 +41,8 @@ html.no-js
 		//- script(src="vendors/delete-me.js")
 		script(src="scripts/vendors.js")
 		script(src="scripts/main.js?"+time)
-		script(src="scripts/demo-menu.js?"+time)
+		script(src="scripts/demo-menu.js?"+time data-demo-options="demo/info.json")
 		block scripts
 
-		include components/_demo-menu
+		//- include components/_demo-menu
 

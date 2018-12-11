@@ -28,9 +28,6 @@ const myApp = {
 
 		this.buttons();
 		this.closeOnFocusLost();
-
-		var DATE = new Date();
-		console.log(DATE.getYear());
 	},
 
 	initOnLoad: function() {
