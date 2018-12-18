@@ -204,11 +204,11 @@
 
 }());
 
-document.addEventListener('DOMContentLoaded', function() {
+;(function(){
 	const url = document.querySelector('[data-demo-data]').getAttribute('data-demo-data')
 	const menu = new DemoMenu({
 		configPath: url,
 		// css: false,
 	})
 	menu.init()
-});
+})();
