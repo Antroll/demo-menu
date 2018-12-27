@@ -1,0 +1,17 @@
+{
+  "name": "select2",
+  "repo": "Antroll/demo-menu",
+  "description": "Demo menu for front-end presentation",
+  "version": "1.0.0",
+  "keywords": [
+    "js"
+  ],
+  "main": "dist/scripts/demo-menu.js",
+  "styles": [
+    "dist/styles/demo-menu.css"
+  ],
+  "scripts": [
+    "dist/scripts/demo-menu.js"
+  ],
+  "license": "MIT"
+}
