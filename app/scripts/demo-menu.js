@@ -116,7 +116,7 @@
 		const itemTemplate = template.querySelector('[data-for]')
 		const list = itemTemplate.parentNode
 		const pages = array
-		template.querySelector('[data-for]').remove()
+		list.removeChild(itemTemplate);
 		template.style.display = 'none';
 		for (var i = 0; i < pages.length; i++) {
 			const data = pages[i]

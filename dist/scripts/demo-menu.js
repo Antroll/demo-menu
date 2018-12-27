@@ -114,7 +114,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		var itemTemplate = template.querySelector('[data-for]');
 		var list = itemTemplate.parentNode;
 		var pages = array;
-		template.querySelector('[data-for]').remove();
+		list.removeChild(itemTemplate);
 		template.style.display = 'none';
 		for (var i = 0; i < pages.length; i++) {
 			var data = pages[i];
