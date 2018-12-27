@@ -2,6 +2,7 @@
 	position: relative;
 	z-index: $zindex-popover;
 	font-size: 16px;
+	line-height: 1.5;
   	font-family: $font-family-base;
 	*,
 	*::before,
@@ -51,6 +52,8 @@
 	&__list{
 		counter-reset: demoList;
 		opacity: 0;
+		padding: 0;
+		margin: 0;
 		transform: translateX(-40px);
 		transition: all 0.2s ease 0.1s;
 		max-height: 100%;
@@ -92,6 +95,7 @@
 		border-radius: 8px;
 		color: #fff;
 		transition: all 0.2s;
+		text-decoration: none;
 
 		&:before{
 			counter-increment: demoList;
