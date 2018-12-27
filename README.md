@@ -1,4 +1,4 @@
-# Gulp-boilerplate
+# Demo-menu
 
 #### Установка
 Для работы со сборкой проэкта необходимы установленные **[node.js](https://nodejs.org/en/)**  и **[ruby](https://www.ruby-lang.org/ru/)**

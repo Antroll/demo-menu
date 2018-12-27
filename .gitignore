@@ -7,7 +7,9 @@ node_modules
 bower_components
 package-lock.json
 dist/styles/*
+!dist/styles/demo-menu.css
 dist/scripts/*
+!dist/scripts/demo-menu.js
 sprite.symbol.svg
 
 *.7z
