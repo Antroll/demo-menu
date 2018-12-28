@@ -1,7 +1,18 @@
 # Demo-menu
+-------
+_Удобный список страниц верстки_
 
-#### Установка
-Для работы со сборкой проэкта необходимы установленные **[node.js](https://nodejs.org/en/)**  и **[ruby](https://www.ruby-lang.org/ru/)**
+Добавьте ссылку на файл JS до закрывающего тэга `<body>`:
+```html
+<script src="//cdn.jsdelivr.net/gh/Antroll/demo-menu@0.3.4/dist/scripts/demo-menu.js" data-demo-data="demo/data.json"></script>
+```
+
+В аттрибуте `data-demo-data="{/data.json}"` необходимо указать путь к конфигу меню.
+
+[https://github.com/Antroll/demo-menu/blob/master/dist/demo/data.json](Пример конфига)
+
+#### Разработка
+Для работы со сборкой проекта необходимы установленные **[node.js](https://nodejs.org/en/)**  и **[ruby](https://www.ruby-lang.org/ru/)**
 Так же должны быть установлены
 
 jade:
