@@ -1,16 +1,18 @@
 'use strict';
 
-var gulp = require('gulp');
-var $ = require('gulp-load-plugins')();
-var browserSync = require('browser-sync');
-var reload = browserSync.reload;
-var jadeData = require('./data.json');
+const gulp = require('gulp');
+const $ = require('gulp-load-plugins')();
+const browserSync = require('browser-sync');
+const reload = browserSync.reload;
+const autoprefixer = require('autoprefixer');
 
-var configs = {
+const jadeData = require('./data.json');
+
+const config = {
 	jsConcat: [
-		'./app/vendors/lazyload.js',
-		'./app/vendors/jquery.dotdotdot.min.js',
-		'./app/vendors/phone-mask.js',
+		// './app/vendors/lazyload.js',
+		// './app/vendors/jquery.dotdotdot.min.js',
+		// './app/vendors/phone-mask.js',
 	],
 	browserSync: {
 		reloadOnRestart: true,
@@ -23,7 +25,7 @@ var configs = {
 	}
 }
 
-var jsDest = 'dist/scripts';
+const jsDest = 'dist/scripts';
 
 // compile jade
 gulp.task('views', function() {
@@ -61,19 +63,16 @@ gulp.task('views', function() {
 
 // compile sass
 gulp.task('styles', function() {
+	const plugins = [autoprefixer()];
 	$.rubySass('app/styles', {
-			// style: 'compact',
-			style: 'compressed',
-			// style: 'expanded',
+			style: 'compressed', //compressed, compact, expanded
 			precision: 10,
 			sourcemap: true
 		})
 		.on('error', function(err) {
 			console.error('Error!', err.message);
 		})
-		.pipe($.postcss([
-			require('autoprefixer'),
-		]))
+		.pipe($.postcss(plugins))
 		.pipe($.sourcemaps.write('.'))
 		.pipe(gulp.dest('dist/styles'))
 		.pipe(reload({ stream: true }));
@@ -90,13 +89,14 @@ gulp.task('scripts', function() {
 		.pipe($.babel({
 			presets: ['es2015']
 		}))
+		.pipe($.uglify())
 		.pipe($.sourcemaps.write('.'))
 		.pipe(gulp.dest(jsDest));
 });
 
 // concat scripts
 gulp.task('concat-scripts', function() {
-	return gulp.src(configs.jsConcat)
+	return gulp.src(config.jsConcat)
 		.pipe($.concat('vendors.js'))
 		.pipe(gulp.dest(jsDest))
 });
@@ -143,7 +143,7 @@ gulp.task('svg-sprite', function() {
 gulp.task('serve', $.sync(gulp).sync([
 	['views', 'png-sprite', 'styles', 'scripts', 'concat-scripts', 'svg-sprite']
 ]), function() {
-	browserSync.init(configs.browserSync);
+	browserSync.init(config.browserSync);
 
 	// watch for changes
 	gulp.watch([
@@ -158,6 +158,8 @@ gulp.task('serve', $.sync(gulp).sync([
 	gulp.watch('app/img/sprite/**/*.png', ['png-sprite']);
 	gulp.watch('app/img/sprite/**/*.svg', ['svg-sprite', 'views']);
 });
+
+gulp.task('build', ['views', 'png-sprite', 'styles', 'scripts', 'concat-scripts', 'svg-sprite']);
 
 gulp.task('default', function() {
 	gulp.start('serve');

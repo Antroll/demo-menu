@@ -1,8 +1,4 @@
-@import "mixins/all-mixins";
-@import "demo-menu/vars";
+@import "mixins/index";
+@import "core/vars";
 
-@import "includes/bootstrap/functions";
-@import "includes/bootstrap/variables";
-@import "includes/bootstrap/mixins";
-
-@import "demo-menu/main";
+@import "components/demo-menu";

@@ -1,0 +1,11 @@
+@function cp($target, $container) {
+	@return round($target / $container * 100% * 100) / 100;
+}
+
+@function em($i, $j) {
+	@return round($i / $j * 1em * 100) / 100;
+}
+
+@function vw($i, $j) {
+	@return round($i / ($j / 100) * 1vw * 1000) / 1000;
+}

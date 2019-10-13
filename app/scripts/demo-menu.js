@@ -1,3 +1,7 @@
+/**
+ * https://github.com/Antroll/demo-menu
+ */
+
 (function() {
 
 	// Define our constructor
@@ -57,13 +61,6 @@
 		}
 	}
 
-	DemoMenu.prototype.close = function() {
-		var _ = this;
-	}
-
-	DemoMenu.prototype.open = function() {
-	}
-
 	/////////////////////
 	// Private Methods //
 	/////////////////////
@@ -89,7 +86,7 @@
 				return div.innerHTML;
 			};
 
-		})();
+	})();
 
 	function ajax (urlString, callback) {
 		var request = new XMLHttpRequest();
@@ -258,11 +255,21 @@
 }());
 
 ;(function(){
-	const url = document.querySelector('[data-demo-data]').getAttribute('data-demo-data')
-	const menu = new DemoMenu({
-		configPath: url,
+	const selector = document.querySelector('[data-demo-data]')
+	if (!selector) {
+		console.warn('DemoMenu', 'there is no selector with config url');
+		return
+	}
+
+	const configPath = selector.getAttribute('data-demo-data')
+	if (!configPath) {
+		console.warn('DemoMenu', 'configPath is empty');
+		return
+	}
+
+	new DemoMenu({
+		configPath: configPath,
 		activeOnHover: true,
-		// css: 'styles/demo-menu.css',
-	})
-	menu.init()
+		css: 'styles/demo-menu.css',
+	}).init()
 })();
