@@ -3,7 +3,7 @@
 - var DATE = new Date();
 - var time = DATE.getTime();
 block vars
-include components/_index
+include components/_index.pug
 doctype html
 html
 	head
@@ -20,5 +20,5 @@ html
 		block content
 		script(src="scripts/demo-menu.js?"+time data-demo-data="demo/data.json")
 
-		//- include components/_demo-menu
+		//- include components/_demo-menu.pug
 
