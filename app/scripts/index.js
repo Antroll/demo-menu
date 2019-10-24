@@ -106,13 +106,14 @@ function parseTemplate (templateString, pages) {
 	menuElem.style.display = 'none';
 
 	for (const page of pages) {
-		listItem.removeAttribute('data-for')
+		const listItemClone = listItem.cloneNode(true);
+		listItemClone.removeAttribute('data-for')
 
 		if (!page.thumb) {
-			listItem.querySelector(this.selector.THUMB_ICON).remove()
+			listItemClone.querySelector(this.selector.THUMB_ICON).remove()
 		}
 
-		let itemStr = getString(listItem)
+		let itemStr = getString(listItemClone)
 		itemStr = strReplaceAll(itemStr, '{{ href }}', page.href)
 		itemStr = strReplaceAll(itemStr, '{{ title }}', page.title)
 		itemStr = strReplaceAll(itemStr, '{{ thumb }}', page.thumb)
