@@ -14,4 +14,4 @@ const getString = (function() {
 
 })();
 
-export default getString
+export { getString }

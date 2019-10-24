@@ -15,10 +15,10 @@ mixin demo-menu(data)
 		div(elem="overlay")
 		div(elem="nav")
 
-			ul(elem="list" mod="custom-scroll")
+			div(elem="list" mod="custom-scroll")
 
 				each item in data.pages
-					li(elem="item" data-for)
+					div(elem="item" data-for)
 						a(elem="link" href=`${item.href}`)
 							div(elem="link-inner")
 								| #{item.title}

@@ -18,4 +18,6 @@ function ajaxGet (urlString, callback) {
 	request.send();
 }
 
-export default ajaxGet
+export {
+	ajaxGet,
+}

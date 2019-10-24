@@ -8,4 +8,4 @@ function extendDefaults(source, properties) {
 	return source;
 }
 
-export default extendDefaults
+export { extendDefaults }

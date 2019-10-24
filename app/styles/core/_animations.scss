@@ -1,0 +1,13 @@
+@keyframes humbleTriggerMobile {
+	50% {
+		transform: scale(1.1);
+		opacity: 1;
+	}
+}
+
+@keyframes humbleTriggerTablet {
+	50% {
+		transform: translateX(10px);
+		opacity: 1;
+	}
+}

@@ -7,6 +7,8 @@ import {
     getString,
     extendDefaults,
     ajaxGet,
+    strReplaceAll,
+    addStyles,
 } from "./utils";
 
 import { initialization } from './initialization'
@@ -19,7 +21,7 @@ class DemoMenu {
 
 		this.menu = null;
 
-		this.selectors = {
+		this.selector = {
 			MENU: '.demo-menu',
 			TRIGGER: '.demo-menu__trigger',
 			OVERLAY: '.demo-menu__overlay',
@@ -51,15 +53,15 @@ class DemoMenu {
 
 	init() {
 		const self = this
-		buildOut.call(self, afterBuild);
+		this::buildOut(afterBuild);
 
 		function afterBuild () {
-			initializeEvents.call(self);
-			stylesLoaded.call(self, afterStylesLoaded);
+			self::initializeListeners();
+			self::stylesLoaded(afterStylesLoaded);
 		}
 
 		function afterStylesLoaded () {
-			const menu = document.querySelector(self.selectors.MENU)
+			const menu = document.querySelector(self.selector.MENU)
 			menu.removeAttribute('style')
 			menu.classList.add(self.states.MENU_INITIALIZED)
 		}
@@ -67,44 +69,63 @@ class DemoMenu {
 
 }
 
-/////////////////////
-// Private Methods //
-/////////////////////
-function parseTemplate (string, array) {
-	const template = createElementFromHTML(string)
-	const itemTemplate = template.querySelector('[data-for]')
-	const list = itemTemplate.parentNode
-	const pages = array
-	list.removeChild(itemTemplate);
-	template.style.display = 'none';
-	for (var i = 0; i < pages.length; i++) {
-		const data = pages[i]
+function buildOut(callback) {
+	const that = this
+	const { options } = this
 
-		itemTemplate.removeAttribute('data-for')
-
-		let itemStr = getString(itemTemplate)
-		itemStr = itemStr.replace('{{ href }}', data.href)
-		itemStr = itemStr.replace('{{ title }}', data.title)
-		itemStr = itemStr.replace('{{ thumb }}', data.thumb)
-
-		const newItem = createElementFromHTML(itemStr);
-		list.appendChild(newItem);
+	if (!options.configPath) {
+		console.warn('DemoMenu', 'configPath is empty');
+		return
 	}
-	document.body.appendChild(template);
+
+	if (options.css) {
+		addStyles(options.css)
+	}
+
+	ajaxGet(options.configPath, data => {
+		const json = JSON.parse(data);
+
+		const menuElem = that::parseTemplate(options.template, json.pages)
+		document.body.appendChild(menuElem);
+
+		callback()
+	})
 }
 
-function addStyles (url) {
-	const head = document.head || document.getElementsByTagName('head')[0];
-	const link = document.createElement('link');
+/**
+ * @param  {string} templateString - string with demo menu template
+ * @param  {array} pages           - data for pages
+ * @return {node}                  - parsed demo menu element
+ */
+function parseTemplate (templateString, pages) {
+	const menuElem = createElementFromHTML(templateString)
+	const listItem = menuElem.querySelector('[data-for]')
+	const list = listItem.parentNode
 
-	link.rel = 'stylesheet';
-	link.href = url;
+	list.removeChild(listItem);
+	menuElem.style.display = 'none';
 
-	head.appendChild(link);
+	for (const page of pages) {
+		listItem.removeAttribute('data-for')
+
+		if (!page.thumb) {
+			listItem.querySelector(this.selector.THUMB_ICON).remove()
+		}
+
+		let itemStr = getString(listItem)
+		itemStr = strReplaceAll(itemStr, '{{ href }}', page.href)
+		itemStr = strReplaceAll(itemStr, '{{ title }}', page.title)
+		itemStr = strReplaceAll(itemStr, '{{ thumb }}', page.thumb)
+
+		const listItemElem = createElementFromHTML(itemStr);
+		list.appendChild(listItemElem);
+	}
+
+	return menuElem
 }
 
 function stylesLoaded (callback) {
-	const overlay = document.querySelector(this.selectors.OVERLAY)
+	const overlay = document.querySelector(this.selector.OVERLAY)
 	const waiting = () => {
 		const position = getComputedStyle(overlay).getPropertyValue('position')
 		if (position !== 'fixed') {
@@ -116,97 +137,80 @@ function stylesLoaded (callback) {
 	waiting();
 }
 
-function buildOut(callback) {
-	const that = this
-	const options = that.options
+function initializeListeners() {
+	const { options } = this,
+		self = this,
+		trigger = document.querySelector(self.selector.TRIGGER),
+		overlay = document.querySelector(self.selector.OVERLAY),
+		menu = document.querySelector(self.selector.MENU),
+		thumbWrap = document.querySelector(self.selector.THUMB_WRAP),
+		nav = document.querySelector(self.selector.NAV),
+		thumbImg = thumbWrap.querySelector('img');
 
-	if (!options.configPath) {
-		console.warn('DemoMenu', 'configPath is empty');
-		return
-	}
-
-	if (options.css) {
-		addStyles(options.css)
-	}
-
-	ajaxGet(options.configPath, function (data) {
-		const json = JSON.parse(data);
-
-		parseTemplate(options.template, json.pages)
-
-		callback()
-	})
-}
-
-function initializeEvents() {
-	const self = this
-	const options = self.options
-	const trigger = document.querySelector(self.selectors.TRIGGER);
-	const overlay = document.querySelector(self.selectors.OVERLAY);
-	const menu = document.querySelector(self.selectors.MENU)
-	const nav = document.querySelector(self.selectors.NAV)
 	let timer
-	if (trigger) {
-		trigger.addEventListener('click', function (e) {
-			e.preventDefault()
-			if (menu.classList.contains(self.states.MENU_ACTIVE)) {
-				menu.classList.remove(self.states.MENU_ACTIVE);
-			} else {
-				menu.classList.add(self.states.MENU_ACTIVE);
-			}
-		});
 
-		if (options.activeOnHover) {
-
-			menu.addEventListener('mouseenter', function () {
-				clearTimeout(timer)
-				timer = setTimeout(function() {
-					menu.classList.add(self.states.MENU_ACTIVE);
-				}, 400);
-			});
-			menu.addEventListener('mouseleave', function () {
-				clearTimeout(timer)
-				timer = setTimeout(function() {
-					menu.classList.remove(self.states.MENU_ACTIVE);
-				}, 500);
-			});
-
+	const triggerClickHandler = e => {
+		e.preventDefault()
+		if (menu.classList.contains(self.states.MENU_ACTIVE)) {
+			menu.classList.remove(self.states.MENU_ACTIVE);
+		} else {
+			menu.classList.add(self.states.MENU_ACTIVE);
 		}
+	}
 
+	const triggerMouseenter = e => {
+		clearTimeout(timer)
+		timer = setTimeout(function() {
+			menu.classList.add(self.states.MENU_ACTIVE);
+		}, 400);
+	}
+
+	const triggerMouseleave = e => {
+		clearTimeout(timer)
+		timer = setTimeout(function() {
+			menu.classList.remove(self.states.MENU_ACTIVE);
+		}, 500);
+	}
+
+	const overlayClickHandler = e => {
+		e.preventDefault()
+		menu.classList.toggle(self.states.MENU_ACTIVE);
+	}
+
+	const thumbIconMouseenter = e => {
+		const src = e.target.getAttribute('data-thumb')
+		const img = thumbWrap.querySelector('img')
+		const navHeight = document.querySelector(self.selector.NAV).clientHeight
+
+		img.style.maxHeight = `${navHeight}px`;
+		thumbWrap.classList.add(self.states.THUMB_WRAP_ACTIVE)
+		thumbImg.setAttribute('src', src)
+	}
+
+	const thumbIconMouseleave = () => {
+		thumbWrap.classList.remove(self.states.THUMB_WRAP_ACTIVE)
+		thumbImg.removeAttribute('src')
+	}
+
+	if (trigger) {
+		trigger.addEventListener('click', triggerClickHandler);
+	}
+
+	if (trigger && options.activeOnHover) {
+		menu.addEventListener('mouseenter', triggerMouseenter);
+		menu.addEventListener('mouseleave', triggerMouseleave);
 	}
 
 	if (overlay) {
-		overlay.addEventListener('click', function (e) {
-			e.preventDefault()
-			menu.classList.toggle(self.states.MENU_ACTIVE);
-		});
+		overlay.addEventListener('click', overlayClickHandler);
 	}
 
-	const thumbIcons = document.querySelectorAll(self.selectors.THUMB_ICON)
-	if (thumbIcons) {
+	;[...document.querySelectorAll(self.selector.THUMB_ICON)].forEach(thumbIcon => {
+		thumbIcon.addEventListener('mouseenter', thumbIconMouseenter);
+		thumbIcon.addEventListener('mouseleave', thumbIconMouseleave);
+	})
 
-		for (var i = 0; i < thumbIcons.length; i++) {
-			loop()
-		}
-
-		const thumbWrap = document.querySelector(self.selectors.THUMB_WRAP)
-		const thumb = thumbWrap.querySelector('img')
-		function loop() {
-			thumbIcons[i].addEventListener('mouseenter', function () {
-				const src = this.getAttribute('data-thumb')
-				thumbWrap.querySelector('img').style.maxHeight = document.querySelector(self.selectors.NAV).clientHeight + 'px';
-				thumbWrap.classList.add(self.states.THUMB_WRAP_ACTIVE)
-				thumb.setAttribute('src', src)
-			});
-			thumbIcons[i].addEventListener('mouseleave', function () {
-				thumbWrap.classList.remove(self.states.THUMB_WRAP_ACTIVE)
-				thumb.removeAttribute('src')
-			});
-		}
-	}
 }
-
-// const triggerClickHandler
 
 window.DemoMenu = DemoMenu;
 

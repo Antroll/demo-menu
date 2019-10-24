@@ -5,4 +5,4 @@ function createElementFromHTML(htmlString) {
 	return div.firstChild;
 }
 
-export default createElementFromHTML
+export { createElementFromHTML }
