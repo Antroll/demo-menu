@@ -22,7 +22,7 @@
     "browser-sync": "*",
     "csswring": "*",
     "del": "^4.1.1",
-    "gulp": "3.9.1",
+    "gulp": "^4.0.0",
     "gulp-babel": "^6.1.2",
     "gulp-beml": "^1.0.0",
     "gulp-cached": "^1.1.1",

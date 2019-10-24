@@ -1,7 +1,10 @@
-- var href = 'javascript:void(0)';
-- var img = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-- var DATE = new Date();
-- var time = DATE.getTime();
+-
+	const href = 'javascript:void(0)';
+	const img = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+	const DATE = new Date();
+	const time = DATE.getTime();
+	const favicon = 'data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA/4QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAERERERERERERAAAAAAAAERAQAAAAAAEBEAEAAAAAEAEQABAAAAEAARAAAQAAEAABEAAAEAEAAAEQAAABEAAAARAAAAEQAAABEAAAEAEAAAEQAAEAABAAARAAEAAAAQABEAEAAAAAEAEQEAAAAAABAREAAAAAAAAREREREREREREAAAAAP/wAAF/6AABv9gAAd+4AAHveAAB9vgAAfn4AAH5+AAB9vgAAe94AAHfuAABv9gAAX/oAAD/8AAAAAAAA';
+
 block vars
 include components/_index.pug
 doctype html
@@ -11,8 +14,7 @@ html
 		block title
 			title Dev site
 		meta(name='viewport' content='width=device-width, initial-scale=1')
-		link(rel="shortcut icon" href="favicon.ico" type="image/x-icon")
-		link(rel="icon" href="favicon.ico" type="image/x-icon")
+		link(href=favicon rel="icon" type="image/x-icon")
 		link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous")
 		//- styles
 		block styles
