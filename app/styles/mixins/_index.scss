@@ -1,0 +1,16 @@
+@import "clicker.mixin";
+@import "verticalize.mixin";
+@import "truncate-text.mixin";
+@import "placeholder.mixin";
+@import "fucntions";
+@import "breakpoints";
+
+@mixin tap-color( $color: rgba(0,0,0,0) ) {
+	-webkit-tap-highlight-color: $color;
+}
+
+@mixin grayscale_element($value) {
+	-webkit-filter: #{"grayscale(#{$value})"};
+	-moz-filter: #{"grayscale(#{$value})"};
+	filter:#{"grayscale(#{$value})"};
+}

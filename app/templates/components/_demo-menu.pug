@@ -1,0 +1,33 @@
+mixin demo-menu(data)
+	-
+		const defaultData = {
+			pages: [
+				{
+					"title": "{{ title }}",
+					"href": "{{ href }}",
+					"thumb": "{{ thumb }}"
+				}
+			]
+		}
+		data = Object.assign(defaultData, data)
+
+	div(block="demo-menu")&attributes(attributes)
+		div(elem="overlay")
+		div(elem="nav")
+
+			div(elem="list" mod="custom-scroll")
+
+				each item in data.pages
+					div(elem="item" data-for)
+						a(elem="link" href=`${item.href}`)
+							div(elem="link-inner")
+								| #{item.title}
+								span(elem="link-addr") #{item.href}
+							i(elem="thumb-icon" data-thumb=`${item.thumb}`) ?
+
+			div(elem="thumb-wrap")
+				img(src=img alt="")
+
+			div(elem="trigger")
+				a(elem="trigger-btn" href="#")
+					i(elem="trigger-icon")
