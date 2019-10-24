@@ -96,9 +96,10 @@
 	&__link{
 		position: relative;
 		display: flex;
-		padding: 4px 40px 8px 8px;
+		padding: 6px 40px 8px 8px;
 		background-color: $color-main-2;
 		border-radius: 8px;
+		line-height: 1.1;
 		color: #fff;
 		transition: all 0.2s;
 		text-decoration: none;
@@ -124,6 +125,7 @@
 	&__link-addr {
 		display: block;
 		font-size: 10px;
+		margin-top: 5px;
 		letter-spacing: 0.1em;
 		color: darken(#fff, 50%);
 		font-weight: 500;
