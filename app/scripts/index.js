@@ -2,13 +2,14 @@
  * https://github.com/Antroll/demo-menu
  */
 
+import '../../dist/styles/demo-menu.css';
+
 import {
     createElementFromHTML,
     getString,
     extendDefaults,
     ajaxGet,
     strReplaceAll,
-    addStyles,
 } from "./utils";
 
 import { initialization } from './initialization'
@@ -32,13 +33,11 @@ class DemoMenu {
 
 		this.states = {
 			MENU_ACTIVE: 'demo-menu--active',
-			MENU_INITIALIZED: 'demo-menu--inited',
 			THUMB_WRAP_ACTIVE: 'demo-menu__thumb-wrap--active',
 		};
 
 		var defaults = {
 			template: templateString,
-			css: '//cdn.jsdelivr.net/gh/Antroll/demo-menu/dist/styles/demo-menu.css',
 			configPath: 'demo/data.json',
 			activeOnHover: false,
 		}
@@ -52,19 +51,9 @@ class DemoMenu {
 	}
 
 	init() {
-		const self = this
-		this::buildOut(afterBuild);
-
-		function afterBuild () {
-			self::initializeListeners();
-			self::stylesLoaded(afterStylesLoaded);
-		}
-
-		function afterStylesLoaded () {
-			const menu = document.querySelector(self.selector.MENU)
-			menu.removeAttribute('style')
-			menu.classList.add(self.states.MENU_INITIALIZED)
-		}
+		this::buildOut(() => {
+			this::initializeListeners();
+		});
 	}
 
 }
@@ -76,10 +65,6 @@ function buildOut(callback) {
 	if (!options.configPath) {
 		console.warn('DemoMenu', 'configPath is empty');
 		return
-	}
-
-	if (options.css) {
-		addStyles(options.css)
 	}
 
 	ajaxGet(options.configPath, data => {
@@ -103,7 +88,6 @@ function parseTemplate (templateString, pages) {
 	const list = listItem.parentNode
 
 	list.removeChild(listItem);
-	menuElem.style.display = 'none';
 
 	for (const page of pages) {
 		const listItemClone = listItem.cloneNode(true);
@@ -123,19 +107,6 @@ function parseTemplate (templateString, pages) {
 	}
 
 	return menuElem
-}
-
-function stylesLoaded (callback) {
-	const overlay = document.querySelector(this.selector.OVERLAY)
-	const waiting = () => {
-		const position = getComputedStyle(overlay).getPropertyValue('position')
-		if (position !== 'fixed') {
-			setTimeout(waiting, 200);
-		} else {
-			callback()
-		}
-	};
-	waiting();
 }
 
 function initializeListeners() {

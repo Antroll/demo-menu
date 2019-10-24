@@ -8,7 +8,6 @@ const initialization = () => {
 	new DemoMenu({
 		configPath: selector.getAttribute('data-demo-data'),
 		activeOnHover: true,
-		// css: 'styles/demo-menu.css',
 	}).init()
 }
 
