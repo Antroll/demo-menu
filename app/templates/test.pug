@@ -1,3 +1,18 @@
 extends _layout.pug
+block styles
+	link(rel="stylesheet", href="styles/demo-menu.css?"+time)
+block scripts
 block content
-	h1.text-center Test
+	+demo-menu({
+		pages: [
+			{
+				title: "Главная",
+				href: "index.html",
+				thumb: "demo/thumbs/index.jpg"
+			},{
+				title: "test",
+				href: "test.html",
+				thumb: "demo/thumbs/test.jpg"
+			}
+		]
+	})(mod="active")

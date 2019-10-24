@@ -5,14 +5,8 @@ const initialization = () => {
 		return
 	}
 
-	const configPath = selector.getAttribute('data-demo-data')
-	if (!configPath) {
-		console.warn('DemoMenu', 'configPath is empty');
-		return
-	}
-
 	new DemoMenu({
-		configPath: configPath,
+		configPath: selector.getAttribute('data-demo-data'),
 		activeOnHover: true,
 		css: 'styles/demo-menu.css',
 	}).init()
