@@ -6,9 +6,17 @@
 			"href": "index.html",
 			"thumb": "demo/thumbs/index.jpg"
 		},{
+			"title": "page 1",
+			"href": "page-1.html",
+			"thumb": ""
+		},{
+			"title": "page 2",
+			"href": "page-2.html",
+			"thumb": ""
+		},{
 			"title": "test",
 			"href": "test.html",
-			"thumb": ""
+			"thumb": "demo/thumbs/test.jpg"
 		}
 	],
 	"tags": [],

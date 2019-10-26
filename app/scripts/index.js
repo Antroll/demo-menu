@@ -10,10 +10,14 @@ import {
     extendDefaults,
     ajaxGet,
     strReplaceAll,
+    initPolyfills,
 } from "./utils";
 
-import { initialization } from './initialization'
-import { templateString } from './templateString'
+import {
+	initialization,
+	templateString,
+	highlightCurrent,
+} from "./components";
 
 
 // Define our constructor
@@ -26,6 +30,7 @@ class DemoMenu {
 			MENU: '.demo-menu',
 			TRIGGER: '.demo-menu__trigger',
 			OVERLAY: '.demo-menu__overlay',
+			ITEM_LINK: '.demo-menu__link',
 			NAV: '.demo-menu__nav',
 			THUMB_WRAP: '.demo-menu__thumb-wrap',
 			THUMB_ICON: '.demo-menu__thumb-icon',
@@ -34,6 +39,7 @@ class DemoMenu {
 		this.states = {
 			MENU_ACTIVE: 'demo-menu--active',
 			THUMB_WRAP_ACTIVE: 'demo-menu__thumb-wrap--active',
+			ITEM_LINK_ACTIVE: 'demo-menu__link--active',
 		};
 
 		var defaults = {
@@ -51,8 +57,10 @@ class DemoMenu {
 	}
 
 	init() {
+		initPolyfills();
 		this::buildOut(() => {
 			this::initializeListeners();
+			this::highlightCurrent();
 		});
 	}
 
@@ -70,8 +78,8 @@ function buildOut(callback) {
 	ajaxGet(options.configPath, data => {
 		const json = JSON.parse(data);
 
-		const menuElem = that::parseTemplate(options.template, json.pages)
-		document.body.appendChild(menuElem);
+		that.menu = that::parseTemplate(options.template, json.pages)
+		document.body.appendChild(that.menu);
 
 		callback()
 	})
