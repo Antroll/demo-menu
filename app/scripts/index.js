@@ -10,10 +10,17 @@ import {
     extendDefaults,
     ajaxGet,
     strReplaceAll,
+    initPolyfills,
 } from "./utils";
 
-import { initialization } from './initialization'
-import { templateString } from './templateString'
+import {
+	initialization,
+	templateString,
+	highlightCurrent,
+	initSearch,
+	focusSearchInput,
+	initThumbs,
+} from "./components";
 
 
 // Define our constructor
@@ -23,17 +30,19 @@ class DemoMenu {
 		this.menu = null;
 
 		this.selector = {
-			MENU: '.demo-menu',
-			TRIGGER: '.demo-menu__trigger',
-			OVERLAY: '.demo-menu__overlay',
-			NAV: '.demo-menu__nav',
-			THUMB_WRAP: '.demo-menu__thumb-wrap',
-			THUMB_ICON: '.demo-menu__thumb-icon',
+			TRIGGER: '.dMenu-trigger',
+			OVERLAY: '.dMenu-overlay',
+			NAV: '.dMenu-nav',
+			SEARCH: '.dMenu-search',
+			NAV_ITEM: '.dMenu-nav__item',
+			NAV_LINK: '.dMenu-nav__link',
+			NAV_LINK_NUM: '.dMenu-nav__link-num',
+			THUMB_ICON: '.dMenu-nav__thumb-icon',
 		};
 
 		this.states = {
-			MENU_ACTIVE: 'demo-menu--active',
-			THUMB_WRAP_ACTIVE: 'demo-menu__thumb-wrap--active',
+			MENU_ACTIVE: 'dMenu-widget--active',
+			NAV_LINK_ACTIVE: 'dMenu-nav__link--active',
 		};
 
 		var defaults = {
@@ -51,9 +60,24 @@ class DemoMenu {
 	}
 
 	init() {
+		initPolyfills();
 		this::buildOut(() => {
+			this::highlightCurrent();
+			this::initSearch();
+			this::initThumbs();
 			this::initializeListeners();
 		});
+	}
+
+	show() {
+		const { menu, states } = this
+		menu.classList.add(states.MENU_ACTIVE);
+		this::focusSearchInput()
+	}
+
+	hide() {
+		const { menu, states } = this
+		menu.classList.remove(states.MENU_ACTIVE);
 	}
 
 }
@@ -68,11 +92,17 @@ function buildOut(callback) {
 	}
 
 	ajaxGet(options.configPath, data => {
-		const json = JSON.parse(data);
+		let json
 
-		const menuElem = that::parseTemplate(options.template, json.pages)
-		document.body.appendChild(menuElem);
+		try {
+			json = JSON.parse(data);
+		} catch(e) {
+			console.warn(`ajaxGet: ${e}`);
+			return
+		}
 
+		that.menu = that::parseTemplate(options.template, json.pages)
+		document.body.appendChild(that.menu);
 		callback()
 	})
 }
@@ -83,18 +113,29 @@ function buildOut(callback) {
  * @return {node}                  - parsed demo menu element
  */
 function parseTemplate (templateString, pages) {
+	const { selector } = this
 	const menuElem = createElementFromHTML(templateString)
 	const listItem = menuElem.querySelector('[data-for]')
 	const list = listItem.parentNode
+	const pagesArr = Array.prototype.slice.call(pages);
 
 	list.removeChild(listItem);
 
-	for (const page of pages) {
-		const listItemClone = listItem.cloneNode(true);
-		listItemClone.removeAttribute('data-for')
+	if (pagesArr.length < 10) {
+		const search = menuElem.querySelector(selector.SEARCH)
+		search.parentNode.removeChild(search);
+	}
 
-		if (!page.thumb) {
-			listItemClone.querySelector(this.selector.THUMB_ICON).remove()
+	pagesArr.forEach((page, i) => {
+		const listItemClone = listItem.cloneNode(true);
+		const thumbIcon = listItemClone.querySelector(selector.THUMB_ICON)
+		const linkNum = listItemClone.querySelector(selector.NAV_LINK_NUM)
+
+		listItemClone.removeAttribute('data-for')
+		linkNum.innerText = `${i + 1}.`
+
+		if (!page.thumb && thumbIcon) {
+			thumbIcon.parentNode.removeChild(thumbIcon);
 		}
 
 		let itemStr = getString(listItemClone)
@@ -104,64 +145,50 @@ function parseTemplate (templateString, pages) {
 
 		const listItemElem = createElementFromHTML(itemStr);
 		list.appendChild(listItemElem);
-	}
+	})
 
 	return menuElem
 }
 
 function initializeListeners() {
-	const { options } = this,
+	const { options, selector, states, menu, show, hide } = this,
 		self = this,
-		trigger = document.querySelector(self.selector.TRIGGER),
-		overlay = document.querySelector(self.selector.OVERLAY),
-		menu = document.querySelector(self.selector.MENU),
-		thumbWrap = document.querySelector(self.selector.THUMB_WRAP),
-		nav = document.querySelector(self.selector.NAV),
-		thumbImg = thumbWrap.querySelector('img');
+		trigger = menu.querySelector(selector.TRIGGER),
+		overlay = menu.querySelector(selector.OVERLAY),
+		nav = menu.querySelector(selector.NAV);
 
 	let timer
 
 	const triggerClickHandler = e => {
 		e.preventDefault()
-		if (menu.classList.contains(self.states.MENU_ACTIVE)) {
-			menu.classList.remove(self.states.MENU_ACTIVE);
+		if (menu.classList.contains(states.MENU_ACTIVE)) {
+			self.hide()
 		} else {
-			menu.classList.add(self.states.MENU_ACTIVE);
+			self.show()
 		}
 	}
 
 	const triggerMouseenter = e => {
 		clearTimeout(timer)
-		timer = setTimeout(function() {
-			menu.classList.add(self.states.MENU_ACTIVE);
+		timer = setTimeout(() => {
+			self.show()
 		}, 400);
 	}
 
 	const triggerMouseleave = e => {
 		clearTimeout(timer)
-		timer = setTimeout(function() {
-			menu.classList.remove(self.states.MENU_ACTIVE);
+		timer = setTimeout(() => {
+			self.hide()
 		}, 500);
 	}
 
 	const overlayClickHandler = e => {
 		e.preventDefault()
-		menu.classList.toggle(self.states.MENU_ACTIVE);
-	}
-
-	const thumbIconMouseenter = e => {
-		const src = e.target.getAttribute('data-thumb')
-		const img = thumbWrap.querySelector('img')
-		const navHeight = document.querySelector(self.selector.NAV).clientHeight
-
-		img.style.maxHeight = `${navHeight}px`;
-		thumbWrap.classList.add(self.states.THUMB_WRAP_ACTIVE)
-		thumbImg.setAttribute('src', src)
-	}
-
-	const thumbIconMouseleave = () => {
-		thumbWrap.classList.remove(self.states.THUMB_WRAP_ACTIVE)
-		thumbImg.removeAttribute('src')
+		if (menu.classList.contains(states.MENU_ACTIVE)) {
+			self.hide()
+		} else {
+			self.show()
+		}
 	}
 
 	if (trigger) {
@@ -176,11 +203,6 @@ function initializeListeners() {
 	if (overlay) {
 		overlay.addEventListener('click', overlayClickHandler);
 	}
-
-	;[...document.querySelectorAll(self.selector.THUMB_ICON)].forEach(thumbIcon => {
-		thumbIcon.addEventListener('mouseenter', thumbIconMouseenter);
-		thumbIcon.addEventListener('mouseleave', thumbIconMouseleave);
-	})
 
 }
 

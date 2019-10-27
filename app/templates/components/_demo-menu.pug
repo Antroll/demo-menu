@@ -5,29 +5,42 @@ mixin demo-menu(data)
 				{
 					"title": "{{ title }}",
 					"href": "{{ href }}",
-					"thumb": "{{ thumb }}"
+					"thumb": "{{ thumb }}",
+					"isActive": false,
 				}
 			]
 		}
 		data = Object.assign(defaultData, data)
 
-	div(block="demo-menu")&attributes(attributes)
-		div(elem="overlay")
-		div(elem="nav")
+	div(block="dMenu-widget")&attributes(attributes)
+		div(block="dMenu-overlay")
+		div(block="dMenu-nav")
+
+			div.dMenu-nav__search(block="dMenu-search")
+				div(elem="box")
+					input#dMenu-search(elem="input" type="text" placeholder="search..." name="dMenu-search")
+					label(elem="label" for="dMenu-search")
+						i.dMenu-icon.dMenu-icon--search
+				div(elem="message" mod="hidden") Nothing found 😐
 
 			div(elem="list" mod="custom-scroll")
 
 				each item in data.pages
+					-
+						const isActive = item.isActive ? 'active' : ''
+
 					div(elem="item" data-for)
-						a(elem="link" href=`${item.href}`)
+						a(elem="link" mod=`${isActive}` href=`${item.href}`)
+							i(elem="link-num")
 							div(elem="link-inner")
 								| #{item.title}
 								span(elem="link-addr") #{item.href}
-							i(elem="thumb-icon" data-thumb=`${item.thumb}`) ?
+							if item.thumb
+								i(elem="thumb-icon" data-thumb=`${item.thumb}`) ?
 
-			div(elem="thumb-wrap")
+			div(block="dMenu-thumb-wrap" mod="position")
 				img(src=img alt="")
 
-			div(elem="trigger")
-				a(elem="trigger-btn" href="#")
-					i(elem="trigger-icon")
+			div(block="dMenu-trigger")
+				a(elem="btn" href="#")
+					i(elem="icon")

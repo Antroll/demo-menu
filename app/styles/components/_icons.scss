@@ -1,0 +1,36 @@
+#{$prefix}icon {
+	display: inline-block;
+
+	&--search {
+		display: inline-block;
+		position: relative;
+		width: 1em;
+		height: 1em;
+		text-align: center;
+
+		&:before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: em(140, 200);
+			height: em(140, 200);
+			border: em(20, 200) solid;
+			border-radius: 50%;
+		}
+
+		&:after {
+			content: '';
+			position: absolute;
+			box-sizing: content-box;
+			right: 0;
+			bottom: em(30, 200);
+			width: em(80, 200);
+			transform: rotate(45deg);
+			border: em(12, 200) solid;
+			border-top-right-radius: em(12, 200);
+			border-bottom-right-radius: em(12, 200);
+		}
+	}
+
+}
