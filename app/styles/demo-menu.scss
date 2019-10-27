@@ -1,6 +1,12 @@
 @import "mixins/index";
 @import "core/vars";
 
-@import "components/demo-menu";
+@import "components/widget";
+@import "components/overlay";
+@import "components/nav";
+@import "components/search";
+@import "components/trigger";
+@import "components/thumb-wrap";
+@import "components/icons";
 
 @import "core/animations";
