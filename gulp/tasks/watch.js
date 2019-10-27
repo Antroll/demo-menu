@@ -17,7 +17,7 @@ const watch = (cb) => {
 	]).on('change', browserSync.reload);
 
 	gulp.watch(config.src.js, gulp.series(scripts));
-	gulp.watch(config.src.scss, gulp.series(styles));
+	gulp.watch(config.src.scss, gulp.series(styles, scripts));
 	gulp.watch(config.src.pug, gulp.series(views));
 
 	cb()
