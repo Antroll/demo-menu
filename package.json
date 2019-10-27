@@ -10,7 +10,7 @@
     "start": "gulp serve",
     "build": "gulp build"
   },
-  "browserslist": "> 0.25%, not dead",
+  "browserslist": "> 0.25%, not dead, ie >= 11",
   "devDependencies": {
     "@babel/core": "^7.6.2",
     "@babel/plugin-transform-runtime": "^7.6.2",

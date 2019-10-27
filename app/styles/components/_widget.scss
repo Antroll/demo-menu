@@ -1,0 +1,12 @@
+#{$prefix}widget {
+	position: absolute;
+	z-index: 99999999;
+	font-size: 16px;
+	line-height: 1.5;
+  	font-family: $font-family-base;
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+	}
+}
