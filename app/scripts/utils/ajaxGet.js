@@ -7,12 +7,12 @@ function ajaxGet (urlString, callback) {
 			var data = request.responseText
 			callback(data)
 		} else {
-			console.warn('We reached our target server, but it returned an error');
+			console.warn(`We reached our target server, but it returned an error ${request.status}`);
 		}
 	};
 
-	request.onerror = function() {
-		console.warn('There was a connection error of some sort');
+	request.onerror = function(e) {
+		console.warn(`There was a connection error of some sort ${e}`);
 	};
 
 	request.send();
