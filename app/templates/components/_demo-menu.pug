@@ -25,13 +25,13 @@ mixin demo-menu(data)
 
 			div(elem="list" mod="custom-scroll")
 
-				each item in data.pages
+				each item, i in data.pages
 					-
 						const isActive = item.isActive ? 'active' : ''
 
 					div(elem="item" data-for)
 						a(elem="link" mod=`${isActive}` href=`${item.href}`)
-							i(elem="link-num")
+							i(elem="link-num") #{i+1}.
 							div(elem="link-inner")
 								| #{item.title}
 								span(elem="link-addr") #{item.href}

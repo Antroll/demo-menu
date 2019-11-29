@@ -45,6 +45,7 @@
 		transform: translateX(-40px);
 		transition: all 0.2s ease 0.1s;
 		max-height: 100%;
+		overflow: hidden;
 		overflow-y: auto;
 
 		&--custom-scroll{
@@ -87,7 +88,7 @@
 	&__link{
 		position: relative;
 		display: flex;
-		padding: 6px 40px 8px 8px;
+		padding: 6px 8px 8px 8px;
 		background-color: $color-main-2;
 		border-radius: 8px;
 		line-height: 1.1;
@@ -122,7 +123,9 @@
 	}
 
 	&__link-inner {
-
+		flex-basis: 0;
+		flex-grow: 1;
+		max-width: 100%;
 	}
 
 	&__link-addr {
@@ -134,6 +137,9 @@
 		font-weight: 500;
 		line-height: 1;
 		transition: color .2s;
+		max-width: 90%;
+		overflow: hidden;
+		text-overflow: ellipsis;
 
 		#{$prefix}nav__link:focus &,
 		#{$prefix}nav__link:hover &{
@@ -145,16 +151,18 @@
 		display: none;
 
 		@include media-breakpoint-up(md) {
-			position: absolute;
-			top: em(8, 14);
-			right: 8px;
+			// position: absolute;
+			// top: em(8, 14);
+			// right: 8px;
 			width: 20px;
 			height: 20px;
 			border-radius: 50%;
 
+			flex-shrink: 0;
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			margin-left: 10px;
 
 			background-color: $color-main-1;
 			color: $color-blue;
