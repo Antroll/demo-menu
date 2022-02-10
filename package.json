@@ -45,7 +45,7 @@
     "gulp-sourcemaps": "^2.6.5",
     "gulp-sync": "^0.1.4",
     "gulp-uglify": "*",
-    "node-sass": "^4.11.0",
+    "node-sass": "^7.0.0",
     "style-loader": "^1.0.0",
     "vinyl-named": "^1.1.0",
     "webpack": "^4.41.0",
